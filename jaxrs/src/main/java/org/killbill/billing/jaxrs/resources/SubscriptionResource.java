@@ -79,6 +79,7 @@ import org.killbill.billing.jaxrs.json.BlockingStateJson;
 import org.killbill.billing.jaxrs.json.BulkSubscriptionsBundleJson;
 import org.killbill.billing.jaxrs.json.BundleJson;
 import org.killbill.billing.jaxrs.json.CustomFieldJson;
+import org.killbill.billing.jaxrs.json.EmptyJson;
 import org.killbill.billing.jaxrs.json.PhasePriceOverrideJson;
 import org.killbill.billing.jaxrs.json.SubscriptionJson;
 import org.killbill.billing.jaxrs.json.TagJson;
@@ -167,7 +168,7 @@ public class SubscriptionResource extends JaxRsResourceBase {
     @POST
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    @ApiOperation(value = "Create an subscription", response = SubscriptionJson.class)
+    @ApiOperation(value = "Create an subscription", response = SubscriptionJson.class, code = 201)
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid subscription supplied")})
     public Response createSubscription(final SubscriptionJson subscription,
                                        @ApiParam(hidden = true) @QueryParam(QUERY_REQUESTED_DT) final String requestedDate, /* This is deprecated, only used for backward compatibility */
@@ -644,7 +645,7 @@ public class SubscriptionResource extends JaxRsResourceBase {
     @DELETE
     @Path("/{subscriptionId:" + UUID_PATTERN + "}")
     @Produces(APPLICATION_JSON)
-    @ApiOperation(value = "Cancel an entitlement plan")
+    @ApiOperation(value = "Cancel an entitlement plan", code = 200, response = EmptyJson.class)
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid subscription id supplied"),
                            @ApiResponse(code = 404, message = "Entitlement not found")})
     public Response cancelSubscriptionPlan(@PathParam("subscriptionId") final UUID subscriptionId,

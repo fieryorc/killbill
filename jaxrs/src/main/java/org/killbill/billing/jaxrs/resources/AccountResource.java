@@ -85,6 +85,7 @@ import org.killbill.billing.jaxrs.json.AccountTimelineJson;
 import org.killbill.billing.jaxrs.json.BlockingStateJson;
 import org.killbill.billing.jaxrs.json.BundleJson;
 import org.killbill.billing.jaxrs.json.CustomFieldJson;
+import org.killbill.billing.jaxrs.json.EmptyJson;
 import org.killbill.billing.jaxrs.json.InvoiceEmailJson;
 import org.killbill.billing.jaxrs.json.InvoiceJson;
 import org.killbill.billing.jaxrs.json.InvoicePaymentJson;
@@ -360,7 +361,7 @@ public class AccountResource extends JaxRsResourceBase {
     @POST
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    @ApiOperation(value = "Create account", response = AccountJson.class)
+    @ApiOperation(value = "Create account", response = AccountJson.class, code = 201)
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid account data supplied")})
     public Response createAccount(final AccountJson json,
                                   @HeaderParam(HDR_CREATED_BY) final String createdBy,
@@ -819,7 +820,7 @@ public class AccountResource extends JaxRsResourceBase {
     @Path("/{accountId:" + UUID_PATTERN + "}/" + PAYMENT_METHODS)
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    @ApiOperation(value = "Add a payment method", response = PaymentMethodJson.class)
+    @ApiOperation(value = "Add a payment method", response = PaymentMethodJson.class, code = 201)
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid account id supplied"),
                            @ApiResponse(code = 404, message = "Account not found")})
     public Response createPaymentMethod(@PathParam("accountId") final UUID accountId,
@@ -1192,7 +1193,7 @@ public class AccountResource extends JaxRsResourceBase {
     @GET
     @Path("/{accountId:" + UUID_PATTERN + "}/" + ALL_CUSTOM_FIELDS)
     @Produces(APPLICATION_JSON)
-    @ApiOperation(value = "Retrieve account customFields", response = CustomFieldJson.class, responseContainer = "List")
+    @ApiOperation(value = "Retrieve account customFields", response = CustomFieldJson.class, responseContainer = "List", nickname = "getAccountAllCustomFields")
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid account id supplied"),
                            @ApiResponse(code = 404, message = "Account not found")})
     public Response getAllCustomFields(@PathParam(ID_PARAM_NAME) final UUID accountId,
@@ -1211,7 +1212,7 @@ public class AccountResource extends JaxRsResourceBase {
     @Path("/{accountId:" + UUID_PATTERN + "}/" + CUSTOM_FIELDS)
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    @ApiOperation(value = "Add custom fields to account", response = CustomField.class, responseContainer = "List")
+    @ApiOperation(value = "Add custom fields to account", response = CustomField.class, responseContainer = "List", nickname = "createAccountCustomFields")
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid account id supplied")})
     public Response createAccountCustomFields(@PathParam(ID_PARAM_NAME) final UUID accountId,
                                               final List<CustomFieldJson> customFields,
@@ -1230,7 +1231,7 @@ public class AccountResource extends JaxRsResourceBase {
     @Path("/{accountId:" + UUID_PATTERN + "}/" + CUSTOM_FIELDS)
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    @ApiOperation(value = "Modify custom fields to account")
+    @ApiOperation(value = "Modify custom fields to account", nickname = "modifyAccountCustomFields")
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid account id supplied")})
     public Response modifyAccountCustomFields(@PathParam(ID_PARAM_NAME) final UUID accountId,
                                               final List<CustomFieldJson> customFields,
@@ -1247,7 +1248,7 @@ public class AccountResource extends JaxRsResourceBase {
     @Path("/{accountId:" + UUID_PATTERN + "}/" + CUSTOM_FIELDS)
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    @ApiOperation(value = "Remove custom fields from account")
+    @ApiOperation(value = "Remove custom fields from account", nickname = "deleteAccountCustomFields")
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid account id supplied")})
     public Response deleteAccountCustomFields(@PathParam(ID_PARAM_NAME) final UUID accountId,
                                               @QueryParam(QUERY_CUSTOM_FIELD) final List<UUID> customFieldList,
@@ -1281,7 +1282,7 @@ public class AccountResource extends JaxRsResourceBase {
     @GET
     @Path("/{accountId:" + UUID_PATTERN + "}/" + ALL_TAGS)
     @Produces(APPLICATION_JSON)
-    @ApiOperation(value = "Retrieve account tags", response = TagJson.class, responseContainer = "List")
+    @ApiOperation(value = "Retrieve account tags", response = TagJson.class, responseContainer = "List", nickname = "getAccountAllTags")
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid account id supplied"),
                            @ApiResponse(code = 404, message = "Account not found")})
     public Response getAllTags(@PathParam(ID_PARAM_NAME) final UUID accountId,
@@ -1300,7 +1301,7 @@ public class AccountResource extends JaxRsResourceBase {
     @POST
     @Path("/{accountId:" + UUID_PATTERN + "}/" + TAGS)
     @Produces(APPLICATION_JSON)
-    @ApiOperation(value = "Add tags to account", response = TagJson.class, responseContainer = "List")
+    @ApiOperation(value = "Add tags to account", code = 201, response = TagJson.class, responseContainer = "List", nickname = "createAccountTags")
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid account id supplied")})
     public Response createAccountTags(@PathParam(ID_PARAM_NAME) final UUID accountId,
                                       @QueryParam(QUERY_TAG) final List<String> tagList,
@@ -1318,7 +1319,7 @@ public class AccountResource extends JaxRsResourceBase {
     @Path("/{accountId:" + UUID_PATTERN + "}/" + TAGS)
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    @ApiOperation(value = "Remove tags from account")
+    @ApiOperation(value = "Remove tags from account", code = 200, response = EmptyJson.class)
     @ApiResponses(value = {@ApiResponse(code = 400, message = "Invalid account id supplied or account does not have a default payment method (AUTO_PAY_OFF tag only)")})
     public Response deleteAccountTags(@PathParam(ID_PARAM_NAME) final UUID accountId,
                                       @QueryParam(QUERY_TAG) final List<UUID> tagList,
